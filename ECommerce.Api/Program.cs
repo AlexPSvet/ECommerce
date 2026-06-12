@@ -10,7 +10,7 @@ builder.Services.AddDbContext<ECommerceDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") 
         ?? "Data Source=ecommerce.db"));
 
-// Add controllers
+// Add controllers.
 builder.Services.AddControllers();
 
 // Add API Explorer and Swagger/OpenAPI support

@@ -2,7 +2,7 @@
 
 namespace ECommerce.Core.DTOs
 {
-    public class ProductCreateEditDto
+    public class ProductDetailsDto
     {
         [Required]
         [MaxLength(100)]

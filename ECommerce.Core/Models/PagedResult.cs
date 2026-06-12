@@ -1,4 +1,4 @@
-namespace ECommerce.Api.Models
+namespace ECommerce.Core.Models
 {
     public class PagedResult<T>
     {

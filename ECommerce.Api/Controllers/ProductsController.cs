@@ -1,5 +1,5 @@
 using ECommerce.Api.Data;
-using ECommerce.Api.Models;
+using ECommerce.Core.Models;
 using ECommerce.Core.DTOs;
 using ECommerce.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -47,9 +47,16 @@ namespace ECommerce.Api.Controllers
                 .OrderBy(p => p.Name)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
+                .Select(product => new ProductDetailsDto()
+                {
+                    Name = product.Name,
+                    Description = product.Description,
+                    Price = product.Price,
+                    Stock = product.Stock
+                })
                 .ToListAsync();
 
-            var result = new PagedResult<Product>
+            var result = new PagedResult<ProductDetailsDto>
             {
                 Items = products,
                 TotalCount = totalCount,
@@ -87,7 +94,7 @@ namespace ECommerce.Api.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(Product), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Product>> CreateProduct([FromBody] ProductCreateEditDto productDto)
+        public async Task<ActionResult<Product>> CreateProduct([FromBody] ProductDetailsDto productDto)
         {
             _logger.LogInformation("Creating new product: {ProductName}", productDto.Name);
 
@@ -112,7 +119,7 @@ namespace ECommerce.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductCreateEditDto productDto)
+        public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductDetailsDto productDto)
         {
             _logger.LogInformation("Updating product with ID: {ProductId}", id);
 

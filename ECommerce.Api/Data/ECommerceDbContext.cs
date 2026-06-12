@@ -59,7 +59,32 @@ namespace ECommerce.Api.Data
                 new() { Id = Guid.NewGuid(), Name = "Webcam", Description = "HD Webcam", Price = 59.99m, Stock = 25 }
             };
 
+            var order1Id = Guid.NewGuid();
+            var order2Id = Guid.NewGuid();
+
+            var orderItems1 = new List<OrderItem>
+            {
+                new() { Id = Guid.NewGuid(), OrderId = order1Id, ProductId = products[0].Id, Quantity = 1, UnitPrice = products[0].Price },
+                new() { Id = Guid.NewGuid(), OrderId = order1Id, ProductId = products[1].Id, Quantity = 2, UnitPrice = products[1].Price },
+                new() { Id = Guid.NewGuid(), OrderId = order1Id, ProductId = products[2].Id, Quantity = 1, UnitPrice = products[2].Price }
+            };
+
+            var orderItems2 = new List<OrderItem>
+            {
+                new() { Id = Guid.NewGuid(), OrderId = order2Id, ProductId = products[3].Id, Quantity = 1, UnitPrice = products[3].Price },
+                new() { Id = Guid.NewGuid(), OrderId = order2Id, ProductId = products[4].Id, Quantity = 1, UnitPrice = products[4].Price }
+            };
+
+            var orders = new List<Order>
+            {
+                new() { Id = order1Id, CreatedAt = DateTime.UtcNow, TotalAmount = orderItems1.Sum(oi => oi.Quantity * oi.UnitPrice) },
+                new() { Id = order2Id, CreatedAt = DateTime.UtcNow, TotalAmount = orderItems2.Sum(oi => oi.Quantity * oi.UnitPrice)  }
+            };
+
             modelBuilder.Entity<Product>().HasData(products);
+            modelBuilder.Entity<OrderItem>().HasData(orderItems1);
+            modelBuilder.Entity<OrderItem>().HasData(orderItems2);
+            modelBuilder.Entity<Order>().HasData(orders);
         }
     }
 }
