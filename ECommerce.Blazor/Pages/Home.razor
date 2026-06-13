@@ -1,47 +1,35 @@
 ﻿@page "/"
-@using ECommerce.Core.DTOs
-@using ECommerce.Core.Models
-@using ECommerce.Blazor.Services
-@inject IProductService ProductService
+@using ECommerce.Core.Enums
+@using ECommerce.Blazor.Components
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="hero">
 
-Welcome to your new app.
+    <div class="hero-content">
 
-@if (products == null)
-{
-	<p><em>Loading...</em></p>
-}
-else if (products.Items.Count == 0)
-{
-	<p>No products found.</p>
-}
-else
-{
-	<div class="row">
-		@foreach (var product in products.Items)
-		{
-			<div class="col-md-4 mb-3">
-				<div class="card">
-					<div class="card-body">
-						<h5 class="card-title">@product.Name</h5>
-						<p class="card-text"><strong>Category:</strong> @product.Category</p>
-						<p class="card-text">@product.Description</p>
-						<p class="card-text"><strong>$@product.Price</strong></p>
-					</div>
-				</div>
-			</div>
-		}
-	</div>
-}
+        <h1>Discover Amazing Products</h1>
 
-@code {
-	private PagedResult<ProductDetailsDto>? products;
+        <p>
+            Shop the latest trends with unbeatable prices.
+        </p>
 
-	protected override async Task OnInitializedAsync()
-	{
-		products = await ProductService.GetProductsAsync(page: 1, pageSize: 10);
-	}
-}
+        <button class="hero-btn">
+            Shop Now
+        </button>
+
+    </div>
+
+</div>
+
+<ProductSectionSlider Category="@Category.Beauty"
+                      Title="For Beauty Enthusiasts"
+                      Subtitle="Buy the best beauty products" />
+
+<ProductSectionSlider Category="@Category.Electronics"
+                      Title="New Arrivals"
+                      Subtitle="Browse the latest gadgets" />
+
+<ProductSectionSlider Category="@Category.Home"
+                      Title="Recommended For You"
+                      Subtitle="Best for your home" />

@@ -1,10 +1,10 @@
 using ECommerce.Api.Data;
 using ECommerce.Core.Models;
-using ECommerce.Core.DTOs;
 using ECommerce.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ECommerce.Core.Enums;
+using ECommerce.Core.DTOs.Product;
 
 namespace ECommerce.Api.Controllers
 {
@@ -54,7 +54,9 @@ namespace ECommerce.Api.Controllers
                     Category = product.Category.ToString(),
                     Description = product.Description,
                     Price = product.Price,
-                    Stock = product.Stock
+                    Stock = product.Stock,
+                    ImageUrl = product.ImageUrl,
+                    CreatedAt = product.CreatedAt
                 })
                 .ToListAsync();
 
@@ -110,7 +112,9 @@ namespace ECommerce.Api.Controllers
                     Category = product.Category.ToString(),
                     Description = product.Description,
                     Price = product.Price,
-                    Stock = product.Stock
+                    Stock = product.Stock,
+                    ImageUrl = product.ImageUrl,
+                    CreatedAt = product.CreatedAt
                 })
                 .ToListAsync();
 
@@ -150,7 +154,9 @@ namespace ECommerce.Api.Controllers
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
-                Stock = product.Stock
+                Stock = product.Stock,
+                ImageUrl = product.ImageUrl,
+                CreatedAt = product.CreatedAt
             };
 
             return Ok(productDto);
@@ -162,7 +168,7 @@ namespace ECommerce.Api.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(ProductDetailsDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ProductDetailsDto>> CreateProduct([FromBody] ProductDetailsDto productDto)
+        public async Task<ActionResult<ProductDetailsDto>> CreateProduct([FromBody] ProductCreateDto productDto)
         {
             _logger.LogInformation("Creating new product: {ProductName}", productDto.Name);
 
@@ -182,7 +188,9 @@ namespace ECommerce.Api.Controllers
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
-                Stock = product.Stock
+                Stock = product.Stock,
+                ImageUrl = product.ImageUrl,
+                CreatedAt = product.CreatedAt
             };
 
             return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, createdProductDto);
@@ -195,7 +203,7 @@ namespace ECommerce.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductDetailsDto productDto)
+        public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductCreateDto productDto)
         {
             _logger.LogInformation("Updating product with ID: {ProductId}", id);
 

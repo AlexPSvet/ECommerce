@@ -1,0 +1,47 @@
+﻿@using ECommerce.Core.DTOs.Product
+
+<div class="product-card">
+
+    <div class="product-image-container">
+        <img src="@Product.ImageUrl"
+             alt="@Product.Name"
+             class="product-image" />
+    </div>
+
+    <div class="product-content">
+
+        <h3 class="product-title">
+            @Product.Name
+        </h3>
+
+        @if (!string.IsNullOrWhiteSpace(Product.Category))
+        {
+            <p class="product-category">
+                @Product.Category
+            </p>
+        }
+
+        <div class="product-price">
+            <span class="current-price">
+                @Product.Price.ToString("C")
+            </span>
+        </div>
+
+        <button class="add-cart-btn" disabled="@(Product.Stock <= 0)">
+
+            <i class="bi bi-cart-plus"></i>
+
+            @(Product.Stock > 0
+                ? "Add to Cart"
+                : "Out of Stock")
+
+        </button>
+
+    </div>
+
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public ProductDetailsDto Product { get; set; } = default!;
+}

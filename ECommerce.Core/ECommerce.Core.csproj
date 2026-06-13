@@ -10,4 +10,8 @@
     <Folder Include="Interfaces\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="DTOs\Product\ProductCreateDto.cs" />
+  </ItemGroup>
+
 </Project>

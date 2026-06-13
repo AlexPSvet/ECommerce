@@ -120,6 +120,7 @@ dotnet ef database update --project ECommerce.Api
 
 - Blazor WebAssembly
 - Bootstrap 5
+- MudBlazor Icons
 - C# 14
 
 ### DevOps

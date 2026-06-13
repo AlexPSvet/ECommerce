@@ -1,0 +1,71 @@
+﻿@using ECommerce.Core.DTOs.Product
+@using ECommerce.Core.Enums
+@using ECommerce.Blazor.Services
+@inject IProductService ProductService
+
+<section class="product-section">
+
+    <div class="section-header">
+        <div>
+            <h2>@Title</h2>
+
+            @if (!string.IsNullOrWhiteSpace(Subtitle))
+            {
+                <p>@Subtitle</p>
+            }
+        </div>
+
+        <button class="view-all-btn">
+            View All
+        </button>
+    </div>
+
+    @if (_isLoading)
+    {
+        <p>Loading products...</p>
+    }
+    else
+    {
+        <div class="products-grid">
+            @foreach (var product in _products)
+            {
+                <ProductCard Product="product" />
+            }
+        </div>
+    }
+
+</section>
+
+@code {
+
+    [Parameter, EditorRequired]
+    public Category Category { get; set; }
+
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string? Subtitle { get; set; }
+
+    [Parameter]
+    public int ProductCount { get; set; } = 8;
+
+    private IReadOnlyCollection<ProductDetailsDto> _products = [];
+
+    private bool _isLoading;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _isLoading = true;
+
+        var result =
+            await ProductService.GetProductsBySectionAsync(
+                Category,
+                page: 1,
+                pageSize: ProductCount);
+
+        _products = result.Items;
+
+        _isLoading = false;
+    }
+}

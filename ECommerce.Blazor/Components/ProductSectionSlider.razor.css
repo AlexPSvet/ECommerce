@@ -1,0 +1,122 @@
+.product-section {
+    margin-block: 3rem;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.section-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--deep-twilight);
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.03rem;
+}
+
+.section-header p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.view-all-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 999rem;
+    background: var(--light-cyan);
+    color: var(--french-blue);
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 200ms ease, background-color 200ms ease, box-shadow 200ms ease;
+}
+
+.view-all-btn:hover {
+    background: var(--frosted-blue-2);
+    transform: translateY(-0.125rem);
+    box-shadow: var(--shadow-sm);
+}
+
+.view-all-btn:active {
+    transform: translateY(0);
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: 1.5rem;
+    align-items: stretch;
+}
+
+.products-grid > * {
+    height: 100%;
+}
+
+.loading-container,
+.empty-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 12rem;
+    border-radius: 1rem;
+    background: var(--surface-alt);
+    color: var(--text-secondary);
+}
+
+@media (max-width: 64rem) {
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+        gap: 1.25rem;
+    }
+
+    .section-header h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 48rem) {
+    .product-section {
+        margin-block: 2rem;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .view-all-btn {
+        align-self: start;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 30rem) {
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-header h2 {
+        font-size: 1.35rem;
+    }
+
+    .section-header p {
+        font-size: 0.875rem;
+    }
+}
