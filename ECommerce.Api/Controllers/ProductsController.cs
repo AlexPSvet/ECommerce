@@ -25,8 +25,8 @@ namespace ECommerce.Api.Controllers
         // @param pageSize : Page size (default: 10, max: 100)
         // @returns : Paginated list of products
         [HttpGet]
-        [ProducesResponseType(typeof(PagedResult<Product>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<PagedResult<Product>>> GetProducts(
+        [ProducesResponseType(typeof(PagedResult<ProductDetailsDto>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<PagedResult<ProductDetailsDto>>> GetProducts(
             [FromQuery] int pageNumber = 1,
             [FromQuery] int pageSize = 10)
         {
@@ -71,9 +71,9 @@ namespace ECommerce.Api.Controllers
         // @param id : Product ID
         // @returns : Product details
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProductDetailsDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Product>> GetProduct(Guid id)
+        public async Task<ActionResult<ProductDetailsDto>> GetProduct(Guid id)
         {
             _logger.LogInformation("Getting product with ID: {ProductId}", id);
 
@@ -85,16 +85,24 @@ namespace ECommerce.Api.Controllers
                 return NotFound();
             }
 
-            return Ok(product);
+            var productDto = new ProductDetailsDto
+            {
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                Stock = product.Stock
+            };
+
+            return Ok(productDto);
         }
 
         // Create a new product
         // @param product : Product details
         // @returns : Created product
         [HttpPost]
-        [ProducesResponseType(typeof(Product), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ProductDetailsDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Product>> CreateProduct([FromBody] ProductDetailsDto productDto)
+        public async Task<ActionResult<ProductDetailsDto>> CreateProduct([FromBody] ProductDetailsDto productDto)
         {
             _logger.LogInformation("Creating new product: {ProductName}", productDto.Name);
 
@@ -109,7 +117,15 @@ namespace ECommerce.Api.Controllers
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
+            var createdProductDto = new ProductDetailsDto
+            {
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                Stock = product.Stock
+            };
+
+            return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, createdProductDto);
         }
 
         // Update an existing product

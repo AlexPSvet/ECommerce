@@ -23,7 +23,7 @@ builder.Services.AddSwaggerGen(c =>
 // Add CORS policy
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddPolicy("AllowAllOrigins", policy =>
     {
         policy.AllowAnyOrigin()
               .AllowAnyMethod()
@@ -53,7 +53,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("AllowAll");
+// Use specific cors policy defined previously.
+app.UseCors("AllowAllOrigins");
 
 app.UseAuthorization();
 
