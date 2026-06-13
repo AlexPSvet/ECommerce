@@ -50,6 +50,7 @@ namespace ECommerce.Api.Controllers
                 .Select(product => new ProductDetailsDto()
                 {
                     Name = product.Name,
+                    Category = product.Category.ToString(),
                     Description = product.Description,
                     Price = product.Price,
                     Stock = product.Stock

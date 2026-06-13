@@ -10,7 +10,7 @@ public class ProductService(HttpClient httpClient) : IProductService
     {
         try
         {
-            return await httpClient.GetFromJsonAsync<PagedResult<ProductDetailsDto>>($"/products?page={page}&pageSize={pageSize}");
+            return await httpClient.GetFromJsonAsync<PagedResult<ProductDetailsDto>>($"/api/products?page={page}&pageSize={pageSize}");
         }
         catch (HttpRequestException ex)
         {
@@ -23,7 +23,7 @@ public class ProductService(HttpClient httpClient) : IProductService
     {
         try
         {
-            return await httpClient.GetFromJsonAsync<ProductDetailsDto>($"/products/{id}");
+            return await httpClient.GetFromJsonAsync<ProductDetailsDto>($"/api/products/{id}");
         }
         catch (HttpRequestException ex)
         {
