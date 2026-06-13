@@ -1,31 +1,73 @@
-﻿<div class="top-row navbar navbar-dark ps-3">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">ECommerce.Blazor</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
+﻿<div class="navigation">
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="nav flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
+    <div class="mobile-header">
+
+        <button class="menu-btn" @onclick="ToggleNavMenu">
+            <i class="bi bi-list"></i>
+        </button>
+
+        <h3>🛍️ ECommerce</h3>
+
+        <NavLink class="cart-btn" href="/cart">
+            <i class="bi bi-cart3"></i>
+        </NavLink>
+
+    </div>
+
+    <div class="sidebar @NavMenuCssClass">
+
+        <div class="sidebar-header">
+            <h3>🛍️ ECommerce</h3>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
+
+        <nav class="nav-menu">
+
+            <NavLink class="nav-item" href="" Match="NavLinkMatch.All">
+                <i class="bi bi-house-door"></i>
+                <span>Home</span>
             </NavLink>
-        </div>
-    </nav>
+
+            <NavLink class="nav-item" href="/products">
+                <i class="bi bi-grid"></i>
+                <span>Products</span>
+            </NavLink>
+
+            <NavLink class="nav-item" href="/categories">
+                <i class="bi bi-tags"></i>
+                <span>Categories</span>
+            </NavLink>
+
+            <NavLink class="nav-item" href="/cart">
+                <i class="bi bi-cart3"></i>
+                <span>Cart</span>
+            </NavLink>
+
+            <NavLink class="nav-item" href="/orders">
+                <i class="bi bi-box-seam"></i>
+                <span>Orders</span>
+            </NavLink>
+
+            <NavLink class="nav-item" href="/wishlist">
+                <i class="bi bi-heart"></i>
+                <span>Wishlist</span>
+            </NavLink>
+
+            <NavLink class="nav-item" href="/account">
+                <i class="bi bi-person-circle"></i>
+                <span>My Account</span>
+            </NavLink>
+
+        </nav>
+
+    </div>
+
 </div>
 
 @code {
     private bool collapseNavMenu = true;
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string NavMenuCssClass =>
+        collapseNavMenu ? "collapsed" : "";
 
     private void ToggleNavMenu()
     {
