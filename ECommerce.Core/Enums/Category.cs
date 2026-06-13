@@ -2,6 +2,7 @@
 {
     public enum Category
     {
+        Other,
         Electronics,
         Accessories,
         Clothing,
@@ -13,7 +14,6 @@
         Automotive,
         Skincare,
         Licor,
-        Travel,
-        Other
+        Travel
     }
 }

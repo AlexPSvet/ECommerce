@@ -46,12 +46,6 @@ docker-compose up -d
 # - Application : http://localhost:8080
 # - API Swagger : http://localhost:5000
 ```
-
-**Avec PowerShell :**
-```powershell
-.\docker-manager.ps1 start
-```
-
 ### Option 2 : Développement local
 
 **Prérequis** :
@@ -163,23 +157,6 @@ Modifier `ECommerce.Blazor/wwwroot/appsettings.json`
 - Docker
 - Docker Compose
 - Nginx (pour servir Blazor WASM en prod)
-
-## Services créés
-
-### ProductService (Blazor)
-Interface permettant de consommer l'API produits :
-
-```csharp
-// Injection dans un composant Razor
-@inject IProductService ProductService
-
-@code {
-    protected override async Task OnInitializedAsync()
-    {
-        var products = await ProductService.GetProductsAsync(page: 1, pageSize: 10);
-    }
-}
-```
 
 ## 🤝 Contribution
 
