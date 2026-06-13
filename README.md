@@ -1,147 +1,115 @@
-# 🛒 ECommerce - Full Stack Application
+# 🛒 E-Commerce - Full Stack Application
 
-Application E-Commerce moderne construite avec .NET 10, Blazor WebAssembly et SQL Server.
+A modern E-Commerce application built with .NET 10, Blazor WebAssembly, and SQL Server.
 
 ## Architecture
 
-- **Frontend** : Blazor WebAssembly (SPA)
-- **Backend** : ASP.NET Core Web API
-- **Database** : SQL Server 2022
-- **ORM** : Entity Framework Core 10
-- **Containerization** : Docker & Docker Compose
+- **Frontend**: Blazor WebAssembly (SPA)
+- **Backend**: ASP.NET Core Web API
+- **Database**: SQL Server 2022
+- **ORM**: Entity Framework Core 10
+- **Containerization**: Docker & Docker Compose
 
-## Structure du projet
+## Project Structure
 
-```
+```text
 ECommerce/
-├── ECommerce.Api/           # API REST ASP.NET Core
-│   ├── Controllers/         # Contrôleurs API
-│   ├── Data/               # DbContext et configurations
-│   └── Dockerfile          # Image Docker API
-├── ECommerce.Blazor/        # Frontend Blazor WASM
-│   ├── Pages/              # Pages Razor
-│   ├── Services/           # Services HTTP (ProductService)
-│   ├── Dockerfile          # Image Docker Blazor
-│   └── nginx.conf          # Configuration Nginx
-├── ECommerce.Core/          # Librairie partagée
-│   ├── DTOs/               # Data Transfer Objects
-│   ├── Entities/           # Entités de domaine
-│   └── Models/             # Modèles (PagedResult, etc.)
-├── docker-compose.yml       # Orchestration Docker (Production)
-├── docker-compose.dev.yml   # Docker SQL Server uniquement (Dev)
-└── docker-manager.ps1       # Script de gestion Docker
+├── ECommerce.Api/           # ASP.NET Core REST API
+│   ├── Controllers/         # API Controllers
+│   ├── Data/                # DbContext and configurations
+│   └── Dockerfile           # API Docker image
+├── ECommerce.Blazor/        # Blazor WASM Frontend
+│   ├── Pages/               # Razor Pages
+│   ├── Services/            # HTTP Services (ProductService)
+│   ├── Dockerfile           # Blazor Docker image
+│   └── nginx.conf           # Nginx configuration
+├── ECommerce.Core/          # Shared Library
+│   ├── DTOs/                # Data Transfer Objects
+│   ├── Entities/            # Domain Entities
+│   └── Models/              # Models (PagedResult, etc.)
+├── docker-compose.yml       # Docker Orchestration (Production)
+├── docker-compose.dev.yml   # SQL Server Only (Development)
+└── docker-manager.ps1       # Docker Management Script
 ```
 
-## Démarrage rapide
+## Quick Start
 
-### Option 1 : Docker (Recommandé)
+### Option 1: Docker (Recommended)
 
-**Prérequis** : Docker Desktop installé
+**Prerequisites:** Docker Desktop installed
 
 ```bash
-# Démarrer tous les services (API + Blazor + SQL Server)
+# Start all services (API + Blazor + SQL Server)
 docker-compose up -d
 
-# Attendre 30-60 secondes puis accéder à :
-# - Application : http://localhost:8080
-# - API Swagger : http://localhost:5000
+# Wait 30–60 seconds, then access:
+# - Application: http://localhost:8080
+# - API Swagger: http://localhost:5000
 ```
-### Option 2 : Développement local
 
-**Prérequis** :
+### Option 2: Local Development
+
+**Prerequisites:**
+
 - .NET 10 SDK
-- Visual Studio 2026 ou VS Code
+- Visual Studio 2026 or VS Code
 
-**1. Démarrer SQL Server (Docker uniquement)**
+#### 1. Start SQL Server (Docker only)
+
 ```bash
 docker-compose -f docker-compose.dev.yml up -d
 ```
 
-**2. Lancer l'API**
+#### 2. Run the API
+
 ```bash
 cd ECommerce.Api
 dotnet run
 ```
 
-**3. Lancer Blazor**
+#### 3. Run Blazor
+
 ```bash
 cd ECommerce.Blazor
 dotnet run
 ```
 
-**Guide détaillé**
-
-## URLs d'accès
-
-### Mode Production (Docker complet)
-- **Application Blazor** : http://localhost:8080
-- **API Documentation** : http://localhost:5000
-- **SQL Server** : localhost:1433
-
-### Mode Développement (Local)
-- **API** : https://localhost:7128 ou http://localhost:5128
-- **Blazor** : https://localhost:7001
-- **SQL Server** : localhost:1433
-
-## Commandes utiles
+## Useful Commands
 
 ### Docker
 
 ```bash
-# Démarrer
+# Start services
 docker-compose up -d
 
-# Voir les logs
+# View logs
 docker-compose logs -f
 
-# Arrêter
+# Stop services
 docker-compose down
 
-# Rebuild après modifications
+# Rebuild after changes
 docker-compose up -d --build
 ```
 
-### Développement
+### Development
 
 ```bash
-# Build
+# Build solution
 dotnet build
 
-# Tests
+# Run tests
 dotnet test
 
-# Migrations EF Core
+# EF Core Migrations
 dotnet ef migrations add InitialCreate --project ECommerce.Api
 dotnet ef database update --project ECommerce.Api
 ```
 
-## Configuration
-
-### Connection String (SQL Server)
-
-**Docker :** Configuré automatiquement dans `docker-compose.yml`
-
-**Local :** Modifier `ECommerce.Api/appsettings.json`
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=ECommerceDb;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;"
-  }
-}
-```
-
-### API Base URL (Blazor)
-
-Modifier `ECommerce.Blazor/wwwroot/appsettings.json`
-```json
-{
-  "ApiBaseUrl": "http://localhost:5000/api"
-}
-```
-
-## Technologies utilisées
+## Technologies Used
 
 ### Backend
+
 - .NET 10
 - ASP.NET Core Web API
 - Entity Framework Core 10
@@ -149,19 +117,40 @@ Modifier `ECommerce.Blazor/wwwroot/appsettings.json`
 - Swagger/OpenAPI
 
 ### Frontend
+
 - Blazor WebAssembly
 - Bootstrap 5
 - C# 14
 
 ### DevOps
+
 - Docker
 - Docker Compose
-- Nginx (pour servir Blazor WASM en prod)
+- Nginx (for serving Blazor WebAssembly in production)
 
-## 🤝 Contribution
+## 🤝 Contributing
 
-1. Fork le projet
-2. Créer une branche feature (`git checkout -b feature/AmazingFeature`)
-3. Commit les changements (`git commit -m 'Add some AmazingFeature'`)
-4. Push vers la branche (`git push origin feature/AmazingFeature`)
-5. Ouvrir une Pull Request
+1. Fork the repository
+2. Create a feature branch:
+
+   ```bash
+   git checkout -b feature/AmazingFeature
+   ```
+
+3. Commit your changes:
+
+   ```bash
+   git commit -m "Add some AmazingFeature"
+   ```
+
+4. Push to your branch:
+
+   ```bash
+   git push origin feature/AmazingFeature
+   ```
+
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.

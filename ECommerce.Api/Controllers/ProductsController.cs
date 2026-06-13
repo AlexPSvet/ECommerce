@@ -4,6 +4,7 @@ using ECommerce.Core.DTOs;
 using ECommerce.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ECommerce.Core.Enums;
 
 namespace ECommerce.Api.Controllers
 {
@@ -56,6 +57,64 @@ namespace ECommerce.Api.Controllers
                     Stock = product.Stock
                 })
                 .ToListAsync();
+
+            var result = new PagedResult<ProductDetailsDto>
+            {
+                Items = products,
+                TotalCount = totalCount,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+
+            return Ok(result);
+        }
+
+        // Get products by Category
+        // @param category : Product category
+        // @param pageNumber : Page number (default: 1)
+        // @param pageSize : Page size (default: 10, max: 100)
+        // @returns : Paginated list of products in the specified category
+        [HttpGet("{category}")]
+        [ProducesResponseType(typeof(PagedResult<ProductDetailsDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<PagedResult<ProductDetailsDto>>> GetCategoryProducts(
+            string category,
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10)
+        {
+            _logger.LogInformation("Getting products from category {Category} - Page: {PageNumber}, Size: {PageSize}", category, pageNumber, pageSize);
+
+            if (!Enum.TryParse<Category>(category, out Category categoryResult))
+            {
+                _logger.LogWarning("Invalid category: {Category}", category);
+                return BadRequest("Invalid category");
+            }
+
+            if (pageNumber < 1)
+                pageNumber = 1;
+
+            if (pageSize < 1)
+                pageSize = 10;
+
+            if (pageSize > 100)
+                pageSize = 100;
+
+            var products = await _context.Products
+                .Where(p => p.Category.Equals(categoryResult))
+                .OrderBy(p => p.Name)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .Select(product => new ProductDetailsDto()
+                {
+                    Name = product.Name,
+                    Category = product.Category.ToString(),
+                    Description = product.Description,
+                    Price = product.Price,
+                    Stock = product.Stock
+                })
+                .ToListAsync();
+
+            var totalCount = await _context.Products.Where(p => p.Category.Equals(categoryResult)).CountAsync();
 
             var result = new PagedResult<ProductDetailsDto>
             {
