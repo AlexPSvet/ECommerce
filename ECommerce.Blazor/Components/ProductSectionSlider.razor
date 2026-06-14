@@ -3,38 +3,44 @@
 @using ECommerce.Blazor.Services
 @inject IProductService ProductService
 
-<section class="product-section">
+<div class="section-header">
+    <div class="section-title-group">
+        <h2>@Title</h2>
 
-    <div class="section-header">
-        <div>
-            <h2>@Title</h2>
-
-            @if (!string.IsNullOrWhiteSpace(Subtitle))
-            {
-                <p>@Subtitle</p>
-            }
-        </div>
-
-        <button class="view-all-btn">
-            View All
-        </button>
+        @if (!string.IsNullOrWhiteSpace(Subtitle))
+        {
+            <p>@Subtitle</p>
+        }
     </div>
 
-    @if (_isLoading)
-    {
-        <p>Loading products...</p>
-    }
-    else
-    {
-        <div class="products-grid">
-            @foreach (var product in _products)
-            {
-                <ProductCard Product="product" />
-            }
-        </div>
-    }
+    <button class="view-all-btn">
+        View All
+    </button>
+</div>
 
-</section>
+@if (_isLoading)
+{
+    <div class="loading-container">
+        <span class="loading-text">
+            Loading products...
+        </span>
+    </div>
+}
+else if (!_products.Any())
+{
+    <div class="empty-container">
+        No products available.
+    </div>
+}
+else
+{
+    <div class="products-grid">
+        @foreach (var product in _products)
+        {
+            <ProductCard Product="product" />
+        }
+    </div>
+}
 
 @code {
 
@@ -64,7 +70,7 @@
                 page: 1,
                 pageSize: ProductCount);
 
-        _products = result.Items;
+        _products = result.Items ?? _products;
 
         _isLoading = false;
     }

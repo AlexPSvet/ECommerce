@@ -24,7 +24,7 @@ public class ProductService(HttpClient httpClient) : IProductService
     {
         try
         {
-            return await httpClient.GetFromJsonAsync<PagedResult<ProductDetailsDto>>($"/api/products?category={category}&page={page}&pageSize={pageSize}");
+            return await httpClient.GetFromJsonAsync<PagedResult<ProductDetailsDto>>($"/api/products/category/{category}?page={page}&pageSize={pageSize}");
         }
         catch (HttpRequestException ex)
         {

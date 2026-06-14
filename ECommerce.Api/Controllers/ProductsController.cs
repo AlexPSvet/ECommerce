@@ -76,7 +76,7 @@ namespace ECommerce.Api.Controllers
         // @param pageNumber : Page number (default: 1)
         // @param pageSize : Page size (default: 10, max: 100)
         // @returns : Paginated list of products in the specified category
-        [HttpGet("{category}")]
+        [HttpGet("category/{category}")]
         [ProducesResponseType(typeof(PagedResult<ProductDetailsDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<PagedResult<ProductDetailsDto>>> GetCategoryProducts(
